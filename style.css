@@ -20,20 +20,21 @@ body {
   position: sticky;
   top: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: rgba(0, 0, 0, 0.85);
+  padding: 1rem 2rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  z-index: 1000;
+  z-index: 999;
   backdrop-filter: blur(10px);
 }
 
-.navbar .logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #04f900;
+.navbar .logo img {
+  height: 50px;
+  width: auto;
+  display: block;
 }
+
 
 .nav-links {
   list-style: none;
