@@ -8,8 +8,8 @@
 body, html {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   scroll-behavior: smooth;
-  color: #fff;
   background-color: #000;
+  color: #fff;
 }
 
 section {
@@ -19,20 +19,6 @@ section {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-/* === VANTA BACKGROUND CONTAINER === */
-#home {
-  position: relative;
-  overflow: hidden;
-  z-index: 1;
-}
-
-#home::before {
-  content: "";
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: -1;
 }
 
 /* === NAVBAR === */
@@ -51,24 +37,21 @@ section {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between; /* pushes logo left, nav right */
+  justify-content: space-between;
   align-items: center;
 }
 
-/* === Make the logo bigger === */
 .logo img {
   height: 64px;
   width: auto;
 }
 
-/* === Align nav links right === */
 .nav-links {
   list-style: none;
   display: flex;
   gap: 2rem;
   margin: 0;
   padding: 0;
-  justify-content: flex-end;
 }
 
 .nav-links li a {
@@ -83,19 +66,35 @@ section {
   color: #00ffcc;
 }
 
-
-/* === WELCOME SECTION === */
-#welcome {
-  background: transparent;
+/* === HOME / VANTA SECTION === */
+#home {
+  position: relative;
+  z-index: 1;
   text-align: center;
 }
 
-#welcome h1 {
+#vanta-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.home-content {
+  max-width: 800px;
+  padding: 2rem;
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 16px;
+}
+
+.home-content h1 {
   font-size: 3rem;
   margin-bottom: 1rem;
 }
 
-#welcome p {
+.home-content p {
   font-size: 1.2rem;
   color: #ccc;
 }
@@ -169,5 +168,4 @@ button:hover {
 .site-footer p {
   margin: 0;
 }
-
 
