@@ -1,29 +1,68 @@
-/* Reset some basics */
+/* Reset and base styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-html, body {
-  height: 100%;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #fff;
-  overflow: hidden;
+html {
+  scroll-behavior: smooth;
 }
 
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #fff;
+  background-color: #000;
+}
+
+/* Navbar Styles */
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #00ffff;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #00ffff;
+}
+
+/* Hero Section */
 #vanta-bg {
   height: 100vh;
-  width: 100%;
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
 .content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  text-align: center;
   z-index: 1;
   backdrop-filter: blur(6px);
   background-color: rgba(0, 0, 0, 0.4);
@@ -31,13 +70,40 @@ html, body {
   border-radius: 12px;
 }
 
-h1 {
-  font-size: 2.5rem;
-  letter-spacing: 1px;
+.content h1 {
+  font-size: 2.8rem;
 }
 
-p {
+.content p {
   font-size: 1.2rem;
   margin-top: 1rem;
 }
 
+/* Sections */
+.section {
+  padding: 6rem 2rem;
+  text-align: center;
+  background-color: #111;
+}
+
+.section h2 {
+  font-size: 2rem;
+  color: #00ffff;
+  margin-bottom: 1rem;
+}
+
+.section p {
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+/* Links */
+a {
+  color: #00ffff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
