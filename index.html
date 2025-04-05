@@ -2,22 +2,47 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>RJColuccio Web Design</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div id="vanta-bg">
-    <div class="content">
-      <h1>RJColuccio Web Design</h1>
-      <p>Modern. Futuristic. Functional.</p>
-    </div>
-  </div>
 
-  <!-- Vanta.js & Three.js -->
+  <!-- 🔗 Sticky Navbar -->
+  <nav class="navbar">
+    <div class="logo">RJColuccio</div>
+    <ul class="nav-links">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- 🌐 Hero with Vanta Background -->
+  <section id="home">
+    <div id="vanta-bg">
+      <div class="content">
+        <h1>Welcome to RJColuccio Web Design</h1>
+        <p>Custom websites for small businesses.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 📄 About Section -->
+  <section id="about" class="section">
+    <h2>About Me</h2>
+    <p>I create sleek, modern, and futuristic websites for small businesses that need a strong online presence without the fluff.</p>
+  </section>
+
+  <!-- ✉️ Contact Section -->
+  <section id="contact" class="section">
+    <h2>Contact</h2>
+    <p>Let’s build something awesome together. Email me at <a href="mailto:rjcoluccio@example.com">rjcoluccio@example.com</a>.</p>
+  </section>
+
+  <!-- Scripts -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vanta@latest/dist/vanta.globe.min.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
-
