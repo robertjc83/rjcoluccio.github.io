@@ -51,31 +51,38 @@ section {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-between; /* pushes logo left, nav right */
   align-items: center;
 }
 
+/* === Make the logo bigger === */
 .logo img {
-  height: 48px;
+  height: 64px;
   width: auto;
 }
 
+/* === Align nav links right === */
 .nav-links {
   list-style: none;
   display: flex;
   gap: 2rem;
+  margin: 0;
+  padding: 0;
+  justify-content: flex-end;
 }
 
 .nav-links li a {
   color: #fff;
   text-decoration: none;
   font-weight: 500;
+  font-size: 1rem;
   transition: color 0.3s;
 }
 
 .nav-links li a:hover {
   color: #00ffcc;
 }
+
 
 /* === WELCOME SECTION === */
 #welcome {
