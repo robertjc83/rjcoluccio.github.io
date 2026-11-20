@@ -538,6 +538,10 @@
   if (Cap && Cap.isNativePlatform && Cap.isNativePlatform()) {
     document.documentElement.classList.add('native');
     const App = Cap.Plugins && Cap.Plugins.App;
+    // Android may kill a backgrounded app without firing pagehide, so bank progress whenever we go to the background.
+    if (App) App.addListener('appStateChange', ({ isActive }) => {
+      if (!isActive) { if (run) { bankRun(); run.earned = 0; run.collected = {}; } save(); }
+    });
     if (App) App.addListener('backButton', () => {
       if (!$('modal').hidden) { if ($('modal').dataset.dismiss) $('modal').hidden = true; }
       else if (run) quit();

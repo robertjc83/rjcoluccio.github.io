@@ -1,22 +1,32 @@
 name: Android build
 
-# Builds the Strata Tycoon Android app.
-# - Always: a debug APK you can sideload onto your phone to test.
-# - When signing secrets are set: a signed release AAB ready to upload to Google Play.
+# Builds each game's Android app.
+# - Always: a debug APK per app you can sideload onto your phone to test.
+# - When signing secrets are set: a signed release AAB per app, ready to upload to Google Play.
 on:
   push:
     paths:
       - 'idle/**'
       - 'strata-app/**'
+      - 'solitaire/**'
+      - 'tidepool-app/**'
       - '.github/workflows/android.yml'
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - app: strata-app
+            name: strata-tycoon
+          - app: tidepool-app
+            name: tidepool-solitaire
     defaults:
       run:
-        working-directory: strata-app
+        working-directory: ${{ matrix.app }}
     env:
       VERSION_CODE: ${{ github.run_number }}
       VERSION_NAME: 1.0.${{ github.run_number }}
@@ -28,7 +38,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: strata-app/package-lock.json
+          cache-dependency-path: ${{ matrix.app }}/package-lock.json
 
       - uses: actions/setup-java@v5
         with:
@@ -42,13 +52,13 @@ jobs:
           npm run sync
 
       - name: Build debug APK
-        working-directory: strata-app/android
+        working-directory: ${{ matrix.app }}/android
         run: ./gradlew --no-daemon assembleDebug
 
       - uses: actions/upload-artifact@v5
         with:
-          name: strata-tycoon-debug-apk
-          path: strata-app/android/app/build/outputs/apk/debug/*.apk
+          name: ${{ matrix.name }}-debug-apk
+          path: ${{ matrix.app }}/android/app/build/outputs/apk/debug/*.apk
 
       - name: Decode signing key
         if: env.HAS_KEYSTORE == 'true'
@@ -56,7 +66,7 @@ jobs:
 
       - name: Build signed release bundle (AAB)
         if: env.HAS_KEYSTORE == 'true'
-        working-directory: strata-app/android
+        working-directory: ${{ matrix.app }}/android
         env:
           ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/upload.jks
           ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
@@ -67,8 +77,8 @@ jobs:
       - uses: actions/upload-artifact@v5
         if: env.HAS_KEYSTORE == 'true'
         with:
-          name: strata-tycoon-release-aab-v${{ github.run_number }}
-          path: strata-app/android/app/build/outputs/bundle/release/*.aab
+          name: ${{ matrix.name }}-release-aab-v${{ github.run_number }}
+          path: ${{ matrix.app }}/android/app/build/outputs/bundle/release/*.aab
 
       - name: Clean up signing key
         if: always()
