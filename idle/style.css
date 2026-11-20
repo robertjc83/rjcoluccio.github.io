@@ -130,6 +130,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* === PANELS === */
 .panel { display: flex; flex-direction: column; gap: 8px; }
+.panel[hidden] { display: none; }
 .row {
   display: grid; grid-template-columns: 38px 1fr auto; align-items: center; gap: 10px;
   background: var(--card); border: 2px solid var(--edge); border-radius: 8px; padding: 10px;
