@@ -1467,8 +1467,16 @@
     else if (t.dataset.act) selAction(t.dataset.act);
   });
 
-  $('#btnNew').addEventListener('click', () => {
-    if (store.get(SAVE_KEY, null) && !confirm('Start over? Your current camp will be lost.')) return;
+  let newArmed = 0;
+  const btnNew = $('#btnNew');
+  btnNew.addEventListener('click', () => {
+    if (store.get(SAVE_KEY, null) && performance.now() - newArmed > 3000) {
+      newArmed = performance.now();
+      btnNew.textContent = 'Tap again to start over';
+      setTimeout(() => { btnNew.textContent = 'New Game'; }, 3000);
+      return;
+    }
+    newArmed = 0; btnNew.textContent = 'New Game';
     store.del(SAVE_KEY); newGame(); startPlaying();
   });
   el.cont.addEventListener('click', () => { if (loadGame()) startPlaying(); else { toast('Save could not be loaded', true); el.cont.classList.add('hidden'); } });
