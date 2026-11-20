@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FareFinder</title>
+  <meta name="description" content="Compare estimated ride share prices across Uber, Lyft and taxis, and find the best deal." />
+  <link rel="icon" href="../rjc-favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="top">
+    <h1>Fare<span>Finder</span></h1>
+    <p class="tag">Compare ride prices before you book.</p>
+  </header>
+
+  <main>
+    <form id="trip" class="panel" autocomplete="off">
+      <label>Pickup
+        <div class="row">
+          <input id="from" placeholder="Address or place" required />
+          <button type="button" id="locate" class="ghost" title="Use my location">&#9737;</button>
+        </div>
+      </label>
+      <label>Dropoff
+        <input id="to" placeholder="Address or place" required />
+      </label>
+      <div class="grid2">
+        <label>Riders
+          <select id="riders">
+            <option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option>
+          </select>
+        </label>
+        <label>When
+          <input id="when" type="datetime-local" />
+        </label>
+      </div>
+      <label>Sort by
+        <select id="sort">
+          <option value="price">Lowest price</option>
+          <option value="value">Best value (price + your time)</option>
+        </select>
+      </label>
+      <button type="submit" id="go">Compare prices</button>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </form>
+
+    <section id="results" hidden>
+      <div class="summary" id="summary"></div>
+      <ol class="cards" id="cards"></ol>
+      <p class="fine">Prices are estimates built from typical rate cards plus an expected demand surcharge for the time of day. They are not live quotes. Type the price an app actually shows you into any card and FareFinder uses it instead.</p>
+    </section>
+
+    <details class="panel" id="rates-panel">
+      <summary>Rate cards (edit to match your city)</summary>
+      <div id="rates"></div>
+      <button type="button" class="ghost" id="reset-rates">Reset to defaults</button>
+    </details>
+  </main>
+
+  <footer><a href="../">&larr; back to RJC Arcade</a></footer>
+  <script src="app.js"></script>
+</body>
+</html>
