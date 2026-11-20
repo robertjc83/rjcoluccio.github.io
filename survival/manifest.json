@@ -1,0 +1,12 @@
+{
+  "name": "Hollow Pines",
+  "short_name": "Hollow Pines",
+  "description": "Forest survival: gather, build, upgrade, and hold the Hearth through the night.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "fullscreen",
+  "orientation": "any",
+  "background_color": "#0d140c",
+  "theme_color": "#0d140c",
+  "icons": [{ "src": "../rjc-logo.png", "sizes": "512x512", "type": "image/png" }]
+}

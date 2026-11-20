@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <title>Hollow Pines</title>
+  <meta name="description" content="Survive the forest. Gather, build, upgrade, and hold the Hearth against the Hollowkin that hunt at night." />
+  <meta name="theme-color" content="#0d140c" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Hollow Pines" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="../rjc-favicon.ico" type="image/x-icon" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <canvas id="game" aria-label="Hollow Pines game world"></canvas>
+
+  <!-- ===== HUD ===== -->
+  <div id="hud" class="hidden">
+    <div class="tl">
+      <div class="stats">
+        <div class="lvl" title="Level">Lv <b id="lvl">1</b></div>
+        <div class="bars">
+          <div class="bar hp"><i id="hpBar"></i><span id="hpTxt"></span></div>
+          <div class="bar hg"><i id="hgBar"></i><span id="hgTxt"></span></div>
+          <div class="bar xp"><i id="xpBar"></i></div>
+        </div>
+      </div>
+      <div id="inv" class="inv"></div>
+      <div id="gear" class="gear"></div>
+    </div>
+
+    <div class="tr">
+      <div class="clock">
+        <div id="dayTxt">Day 1</div>
+        <div id="timeTxt"></div>
+        <div class="cyc"><i id="cycBar"></i></div>
+      </div>
+      <canvas id="mini" width="132" height="132" aria-label="Minimap"></canvas>
+    </div>
+
+    <div id="hint" class="hint"></div>
+    <div id="placeBar" class="placebar hidden"></div>
+
+    <div class="toolbar">
+      <button type="button" data-cmd="build">Build <kbd>B</kbd></button>
+      <button type="button" data-cmd="craft">Craft <kbd>C</kbd></button>
+      <button type="button" data-cmd="eat">Eat <kbd>F</kbd></button>
+      <button type="button" data-cmd="use" class="desk">Inspect <kbd>E</kbd></button>
+      <button type="button" data-cmd="pause">II</button>
+    </div>
+  </div>
+
+  <!-- ===== PANELS ===== -->
+  <div id="buildMenu" class="panel hidden"></div>
+  <div id="craftMenu" class="panel hidden"></div>
+  <div id="selPanel" class="panel side hidden"></div>
+
+  <!-- ===== TOUCH ===== -->
+  <div id="touch" class="hidden">
+    <div id="stick"><div id="knob"></div></div>
+    <div class="tbtns">
+      <button type="button" data-hold="attack" class="big" aria-label="Attack / gather">&#9876;</button>
+      <button type="button" data-cmd="use" aria-label="Inspect">&#9995;</button>
+    </div>
+  </div>
+
+  <!-- ===== MODALS ===== -->
+  <div id="title" class="modal">
+    <div class="card">
+      <h1>Hollow <span>Pines</span></h1>
+      <p class="tag">Keep the Hearth burning. They come when the light dies.</p>
+      <div class="btns">
+        <button type="button" class="pri" id="btnNew">New Game</button>
+        <button type="button" id="btnCont" class="hidden">Continue</button>
+      </div>
+      <p id="best" class="best"></p>
+      <details>
+        <summary>How to play</summary>
+        <ul>
+          <li><b>Day:</b> chop trees, mine stone and iron, pick berries. Build walls, gates, spikes, torches and towers inside the Hearth's glow.</li>
+          <li><b>Night:</b> Hollowkin pour out of the forest. They go for you, or for the Hearth. If the Hearth goes out, the run is over.</li>
+          <li><b>Workbench:</b> stand next to it to upgrade your axe, pickaxe, weapon and lantern. Level it up to unlock iron and Hollowbone tiers.</li>
+          <li><b>Light burns them.</b> Torches and the Hearth damage creatures inside their glow.</li>
+          <li><b>Level up</b> from gathering, building and kills. Each level lets you pick a perk.</li>
+        </ul>
+        <p class="keys"><kbd>WASD</kbd> move &middot; <kbd>Click</kbd>/<kbd>Space</kbd> attack &amp; gather &middot; <kbd>B</kbd> build &middot; <kbd>C</kbd> craft &middot; <kbd>E</kbd>/right-click inspect &middot; <kbd>F</kbd> eat &middot; <kbd>P</kbd> pause &middot; <kbd>M</kbd> mute</p>
+      </details>
+      <a class="back" href="../">&larr; Back to RJC Arcade</a>
+    </div>
+  </div>
+
+  <div id="levelUp" class="modal hidden"><div class="card" id="levelCard"></div></div>
+
+  <div id="pauseM" class="modal hidden">
+    <div class="card">
+      <h2>Paused</h2>
+      <div class="btns">
+        <button type="button" class="pri" id="btnResume">Resume</button>
+        <button type="button" id="btnMute">Sound: On</button>
+        <button type="button" id="btnQuit">Save &amp; Quit</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="overM" class="modal hidden">
+    <div class="card">
+      <h2 class="dead">The Hearth has gone out</h2>
+      <p id="overTxt"></p>
+      <div class="btns"><button type="button" class="pri" id="btnAgain">Try Again</button></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="game.js"></script>
+</body>
+</html>

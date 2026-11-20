@@ -462,3 +462,10 @@ kbd {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* === FEATURED FULL GAME === */
+.feature { display: block; margin-top: 28px; padding: 22px 20px; border: 2px solid #ff9a3c; border-radius: 12px; background: linear-gradient(180deg, rgba(30, 45, 25, .85), rgba(10, 15, 8, .9)); text-decoration: none; color: var(--text); box-shadow: 0 0 18px rgba(255, 154, 60, .35); transition: transform .15s, box-shadow .15s; }
+.feature:hover, .feature:focus-visible { transform: translateY(-2px); box-shadow: 0 0 28px rgba(255, 154, 60, .6); }
+.feature-tag { display: block; font-size: 8px; color: #ff9a3c; margin-bottom: 10px; }
+.feature-title { display: block; font-size: 16px; color: #ffd27a; margin-bottom: 10px; }
+.feature-desc { display: block; font-family: system-ui, sans-serif; font-size: 15px; color: var(--muted); line-height: 1.55; }
