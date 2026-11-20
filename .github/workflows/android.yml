@@ -1,0 +1,75 @@
+name: Android build
+
+# Builds the Strata Tycoon Android app.
+# - Always: a debug APK you can sideload onto your phone to test.
+# - When signing secrets are set: a signed release AAB ready to upload to Google Play.
+on:
+  push:
+    paths:
+      - 'idle/**'
+      - 'strata-app/**'
+      - '.github/workflows/android.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: strata-app
+    env:
+      VERSION_CODE: ${{ github.run_number }}
+      VERSION_NAME: 1.0.${{ github.run_number }}
+      HAS_KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 != '' }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: strata-app/package-lock.json
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+          cache: gradle
+
+      - name: Install and copy web game into the app
+        run: |
+          npm ci
+          npm run sync
+
+      - name: Build debug APK
+        working-directory: strata-app/android
+        run: ./gradlew --no-daemon assembleDebug
+
+      - uses: actions/upload-artifact@v5
+        with:
+          name: strata-tycoon-debug-apk
+          path: strata-app/android/app/build/outputs/apk/debug/*.apk
+
+      - name: Decode signing key
+        if: env.HAS_KEYSTORE == 'true'
+        run: echo "${{ secrets.ANDROID_KEYSTORE_BASE64 }}" | base64 -d > "$RUNNER_TEMP/upload.jks"
+
+      - name: Build signed release bundle (AAB)
+        if: env.HAS_KEYSTORE == 'true'
+        working-directory: strata-app/android
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/upload.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: ./gradlew --no-daemon bundleRelease
+
+      - uses: actions/upload-artifact@v5
+        if: env.HAS_KEYSTORE == 'true'
+        with:
+          name: strata-tycoon-release-aab-v${{ github.run_number }}
+          path: strata-app/android/app/build/outputs/bundle/release/*.aab
+
+      - name: Clean up signing key
+        if: always()
+        run: rm -f "$RUNNER_TEMP/upload.jks"

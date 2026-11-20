@@ -1,3 +1,10 @@
+/* Bundled locally so the game (and the Android app) works offline. SIL OFL, see fonts/OFL.txt */
+@font-face {
+  font-family: 'Press Start 2P';
+  src: url('fonts/press-start-2p.woff2') format('woff2');
+  font-display: swap;
+}
+
 /* === TOKENS (shared look with RJC Arcade) === */
 :root {
   --bg: #0a0414;
@@ -18,6 +25,7 @@
 
 body {
   min-height: 100vh;
+  overscroll-behavior: none;
   font-family: var(--font);
   color: var(--text);
   background: radial-gradient(ellipse at top, var(--bg-glow) 0%, var(--bg) 60%) fixed, var(--bg);
@@ -34,7 +42,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .app {
   width: min(100%, 560px);
   margin: 0 auto;
-  padding: 12px 16px 40px;
+  padding: calc(12px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -46,6 +54,9 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .topbar h1 span { color: var(--pink); text-shadow: 0 0 8px var(--pink); }
 .back { font-size: 8px; color: var(--muted); text-decoration: none; }
 .back:hover { color: var(--cyan); }
+.native .back { display: none; }
+.native .topbar h1 { margin-right: auto; }
+.native, .native body { user-select: none; -webkit-user-select: none; }
 .planet { font-size: 8px; color: var(--cyan); text-align: right; }
 
 /* === STATS === */

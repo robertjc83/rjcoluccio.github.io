@@ -159,8 +159,9 @@
     try { localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (e) { /* ignore */ }
   }
 
-  function applyOffline() {
-    const away = Math.min((Date.now() - S.lastSave) / 1000, offlineCapH() * 3600);
+  // `since` = wall-clock ms when the game last ran (defaults to the last save)
+  function applyOffline(since = S.lastSave) {
+    const away = Math.min((Date.now() - since) / 1000, offlineCapH() * 3600);
     if (away < 30) return;
     const c0 = S.credits, d0 = S.depth;
     // run the real simulation in coarse steps so silo/hauler bottlenecks still apply
@@ -170,6 +171,7 @@
     if (gained > 0) {
       showModal('WELCOME BACK', `Your crew worked the night shift for <b>${fmtTime(away)}</b>.<br>Earned <b>${fmt(gained)}</b> credits and dug <b>${fmt(S.depth - d0)} m</b>.`, 'COLLECT');
     }
+    save();
   }
 
   // ===== FORMAT =====
@@ -509,8 +511,12 @@
   }
 
   // ===== MAIN LOOP =====
-  let last = performance.now(), uiTimer = 0, saveTimer = 0;
+  let last = performance.now(), wall = Date.now(), uiTimer = 0, saveTimer = 0;
   function frame(now) {
+    // Phones can freeze the app without firing any page event; treat a big wall-clock gap as time away.
+    const nowWall = Date.now();
+    if (nowWall - wall > 30000) applyOffline(wall);
+    wall = nowWall;
     const dt = Math.min(0.25, (now - last) / 1000);
     last = now;
     boost = holding ? Math.min(1, boost + dt * 1.2) : Math.max(0, boost - dt * 0.5);
@@ -533,11 +539,25 @@
     requestAnimationFrame(frame);
   }
 
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden) save();
-    else { applyOffline(); last = performance.now(); }
-  });
+  function resume() { applyOffline(); last = performance.now(); wall = Date.now(); }
+  document.addEventListener('visibilitychange', () => { if (document.hidden) save(); else resume(); });
   window.addEventListener('pagehide', save);
+
+  // ===== NATIVE APP (Capacitor) =====
+  const Cap = window.Capacitor;
+  if (Cap && Cap.isNativePlatform && Cap.isNativePlatform()) {
+    document.documentElement.classList.add('native');
+    const App = Cap.Plugins && Cap.Plugins.App;
+    if (App) {
+      App.addListener('appStateChange', ({ isActive }) => { if (isActive) resume(); else { holdEnd(); save(); } });
+      // Android back button: close a dialog if one is open, otherwise send the app to the background
+      // (idle games shouldn't quit on back; the crew keeps working).
+      App.addListener('backButton', () => {
+        if (!els.modal.hidden) els.modal.hidden = true;
+        else { save(); App.minimizeApp(); }
+      });
+    }
+  }
 
   // ===== BOOT =====
   resize();

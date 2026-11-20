@@ -1,0 +1,9 @@
+{
+  "appId": "io.github.rjcoluccio.stratatycoon",
+  "appName": "Strata Tycoon",
+  "webDir": "www",
+  "backgroundColor": "#0a0414",
+  "android": {
+    "backgroundColor": "#0a0414"
+  }
+}

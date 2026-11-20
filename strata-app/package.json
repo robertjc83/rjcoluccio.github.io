@@ -1,0 +1,21 @@
+{
+  "name": "strata-tycoon-app",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Android wrapper for Strata Tycoon (the web game lives in ../idle).",
+  "scripts": {
+    "build": "node scripts/build-www.mjs",
+    "sync": "npm run build && cap sync android",
+    "icons": "capacitor-assets generate --android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.6.2"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^4.0.0",
+    "@capacitor/cli": "^8.6.2",
+    "@fontsource/press-start-2p": "^5.3.0"
+  }
+}
