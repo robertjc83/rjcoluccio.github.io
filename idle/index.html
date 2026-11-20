@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#0a0414" />
+  <title>Strata Tycoon</title>
+  <meta name="description" content="An idle drilling game. Bore through a planet's layers, haul ore, upgrade your rig, then launch to a richer world." />
+  <link rel="icon" href="../rjc-favicon.ico" type="image/x-icon" />
+  <link rel="preload" href="fonts/press-start-2p.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="topbar">
+      <a class="back" href="../" aria-label="Back to RJC Arcade">&larr; ARCADE</a>
+      <h1>STRATA <span>TYCOON</span></h1>
+      <span class="planet" id="planet-name">RUSTMOOR</span>
+    </header>
+
+    <section class="stats" aria-label="Resources">
+      <div class="stat"><span class="lbl">CREDITS</span><span class="val c-yellow" id="s-credits">0</span></div>
+      <div class="stat"><span class="lbl">PER SEC</span><span class="val c-green" id="s-cps">0</span></div>
+      <div class="stat"><span class="lbl">DEPTH</span><span class="val c-cyan" id="s-depth">0 m</span></div>
+      <div class="stat"><span class="lbl">SHARDS</span><span class="val c-pink" id="s-shards">0</span></div>
+    </section>
+
+    <section class="scene">
+      <canvas id="world" aria-label="Drill site cross-section. Hold to overdrive the drill, tap geodes for bonus credits."></canvas>
+      <div class="layer-tag" id="layer-tag">TOPSOIL</div>
+      <div class="silo-warn" id="silo-warn" hidden>SILO FULL &mdash; BUY HAULERS</div>
+    </section>
+
+    <section class="overdrive">
+      <button type="button" class="od-btn" id="od-btn">HOLD TO OVERDRIVE</button>
+      <div class="meter" aria-hidden="true"><div class="meter-fill" id="od-fill"></div></div>
+      <div class="meter-row">
+        <span>SILO <b id="s-silo">0 / 0</b></span>
+        <span>DIG <b id="s-dig">0/s</b></span>
+        <span>HAUL <b id="s-haul">0/s</b></span>
+      </div>
+    </section>
+
+    <nav class="tabs" role="tablist">
+      <button type="button" role="tab" class="tab active" data-tab="rigs">RIGS</button>
+      <button type="button" role="tab" class="tab" data-tab="upgrades">UPGRADES</button>
+      <button type="button" role="tab" class="tab" data-tab="launch">LAUNCH</button>
+      <button type="button" role="tab" class="tab" data-tab="stats">STATS</button>
+    </nav>
+
+    <div class="buy-mode" id="buy-mode">
+      BUY <button type="button" data-mult="1" class="on">x1</button><button type="button" data-mult="10">x10</button><button type="button" data-mult="max">MAX</button>
+    </div>
+
+    <section class="panel" id="panel-rigs" role="tabpanel"></section>
+    <section class="panel" id="panel-upgrades" role="tabpanel" hidden></section>
+    <section class="panel" id="panel-launch" role="tabpanel" hidden>
+      <div class="launch-card">
+        <h2>LAUNCH TO A NEW WORLD</h2>
+        <p>Abandon this planet and fly to the next. You lose your rigs, upgrades and credits, but keep every <b class="c-pink">Core Shard</b>. Each shard adds <b>+10%</b> to all ore value, forever.</p>
+        <p>Next planet: <b id="l-next" class="c-cyan">VELKA PRIME</b> &mdash; ore worth <b id="l-val">x3</b>, rock <b id="l-hard">x2</b> harder.</p>
+        <p class="big">LAUNCH NOW FOR <b class="c-pink" id="l-gain">0</b> SHARDS</p>
+        <p class="tiny" id="l-req">Reach 500 m to unlock launch.</p>
+        <button type="button" class="buy wide" id="btn-launch" disabled>LAUNCH</button>
+      </div>
+    </section>
+    <section class="panel" id="panel-stats" role="tabpanel" hidden>
+      <dl class="stat-list" id="stat-list"></dl>
+      <button type="button" class="buy danger wide" id="btn-wipe">WIPE SAVE</button>
+    </section>
+  </main>
+
+  <div class="modal" id="modal" hidden>
+    <div class="modal-box">
+      <h2 id="modal-title">WELCOME BACK</h2>
+      <p id="modal-body"></p>
+      <button type="button" class="buy wide" id="modal-ok">COLLECT</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="game.js"></script>
+</body>
+</html>

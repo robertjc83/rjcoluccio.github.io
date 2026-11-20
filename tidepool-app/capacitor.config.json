@@ -1,0 +1,9 @@
+{
+  "appId": "io.github.rjcoluccio.tidepoolsolitaire",
+  "appName": "Tidepool Solitaire",
+  "webDir": "www",
+  "backgroundColor": "#06334a",
+  "android": {
+    "backgroundColor": "#06334a"
+  }
+}

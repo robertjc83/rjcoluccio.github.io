@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#06334a" />
+  <title>Tidepool Solitaire</title>
+  <meta name="description" content="Peak-style solitaire under the sea. Clear the board, rescue sea creatures and restore a coral reef." />
+  <link rel="icon" href="../rjc-favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <a class="back" href="../" aria-label="Back to RJC Arcade">&larr;</a>
+      <div class="pill coins" title="Coins"><span aria-hidden="true">🪙</span> <b id="h-coins">0</b></div>
+      <div class="pill wilds" title="Wild cards"><span aria-hidden="true">🃏</span> <b id="h-wilds">0</b></div>
+      <button type="button" class="pill icon-btn" id="btn-sound" aria-label="Toggle sound">🔊</button>
+    </header>
+
+    <!-- ===== MAP ===== -->
+    <section class="screen active" id="screen-map">
+      <h1 class="title">Tidepool<br /><span>Solitaire</span></h1>
+      <button type="button" class="reef-card" id="btn-reef">
+        <span class="reef-emoji" id="map-reef-art" aria-hidden="true">🪸</span>
+        <span class="reef-text"><b>Your Reef</b><small id="map-reef-sub">0 / 5 restored</small></span>
+        <span class="bag" id="map-bag"></span>
+      </button>
+      <ol class="levels" id="levels"></ol>
+    </section>
+
+    <!-- ===== GAME ===== -->
+    <section class="screen" id="screen-game">
+      <div class="game-head">
+        <button type="button" class="small-btn" id="btn-quit">✕</button>
+        <div class="lvl-info"><b id="g-level">Level 1</b><small id="g-layout">Three Peaks</small></div>
+        <div class="run-coins">+<b id="g-earned">0</b> 🪙</div>
+      </div>
+      <div class="catch" id="g-catch" aria-label="Creatures rescued this level"></div>
+      <div class="board-wrap"><div class="board" id="board"></div></div>
+      <div class="streak" aria-hidden="true"><div class="streak-fill" id="streak-fill"></div><span id="streak-label">STREAK</span></div>
+      <div class="tray">
+        <button type="button" class="tool" id="btn-undo"><span>↶</span><small>Undo<br />25 🪙</small></button>
+        <button type="button" class="pile stock" id="stock" aria-label="Draw a card"><span class="count" id="stock-count">0</span></button>
+        <div class="pile waste" id="waste"></div>
+        <button type="button" class="tool" id="btn-wild"><span>🃏</span><small>Wild<br /><b id="wild-count">0</b></small></button>
+      </div>
+    </section>
+
+    <!-- ===== REEF ===== -->
+    <section class="screen" id="screen-reef">
+      <div class="game-head">
+        <button type="button" class="small-btn" id="btn-reef-back">←</button>
+        <div class="lvl-info"><b>Your Reef</b><small id="reef-tier">Reef 1</small></div>
+        <span></span>
+      </div>
+      <div class="bag big" id="reef-bag"></div>
+      <div class="zones" id="zones"></div>
+    </section>
+  </div>
+
+  <div class="modal" id="modal" hidden>
+    <div class="modal-box">
+      <div class="modal-art" id="modal-art"></div>
+      <h2 id="modal-title"></h2>
+      <div id="modal-body"></div>
+      <div class="modal-actions" id="modal-actions"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="game.js"></script>
+</body>
+</html>

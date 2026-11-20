@@ -1,0 +1,20 @@
+{
+  "name": "tidepool-solitaire-app",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Android wrapper for Tidepool Solitaire (the web game lives in ../solitaire).",
+  "scripts": {
+    "build": "node scripts/build-www.mjs",
+    "sync": "npm run build && cap sync android",
+    "icons": "capacitor-assets generate --android --iconBackgroundColor '#06334a' --splashBackgroundColor '#06334a' && node scripts/shrink-splash.cjs"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.6.2"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^4.0.0",
+    "@capacitor/cli": "^8.6.2"
+  }
+}

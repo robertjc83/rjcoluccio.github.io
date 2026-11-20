@@ -387,6 +387,8 @@ body.rainbow .crt { animation: hue 2.5s linear infinite; }
 }
 
 .card h3 { font-size: 11px; margin-bottom: 12px; }
+.card-link { text-decoration: none; border-color: var(--yellow); transition: box-shadow .2s, transform .2s; }
+.card-link:hover, .card-link:focus-visible { box-shadow: 0 0 18px rgba(255, 230, 0, .35); transform: translateY(-2px); }
 .card p { font-family: system-ui, sans-serif; font-size: 15px; color: var(--muted); line-height: 1.55; }
 
 .c-yellow { color: var(--yellow); }
